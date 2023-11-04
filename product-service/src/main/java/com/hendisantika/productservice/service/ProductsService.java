@@ -74,4 +74,15 @@ public class ProductsService {
                 .qty(request.getQty())
                 .build();
     }
+
+    private ProductResponse modelProduct(Products products) {
+        return ProductResponse.builder()
+                .id(products.getId())
+                .name(products.getName())
+                .price(products.getPrice())
+                .image(products.getImage())
+                .qty(products.getQty())
+                .category(this.categoryService.getCategory(products.getCategoryId()))
+                .build();
+    }
 }

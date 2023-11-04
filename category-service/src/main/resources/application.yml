@@ -33,7 +33,7 @@ spring:
       ddl-auto: update
       connection:
         provider_class: "com.zaxxer.hikari.hibernate.HikariConnectionProvider"
-    show-sql: false
+    show-sql: true
 controller:
   api:
     create: /api/v1/save

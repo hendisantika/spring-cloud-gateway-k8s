@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
@@ -61,5 +62,16 @@ public class ProductsService {
         return productsRepository.findById(id)
                 .map(data -> modelProduct(data))
                 .orElseThrow(() -> new MessageNotfoundException("product id not found"));
+    }
+
+    private Products entityProduct(ProductRequest request) {
+        return Products.builder()
+                .name(request.getName())
+                .categoryId(request.getCategoryId())
+                .createdAt(LocalDateTime.now())
+                .price(request.getPrice())
+                .image(request.getImage())
+                .qty(request.getQty())
+                .build();
     }
 }

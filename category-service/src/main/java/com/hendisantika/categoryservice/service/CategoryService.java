@@ -44,4 +44,14 @@ public class CategoryService {
                         .build())
                 .orElseThrow(() -> new MessageNotFoundException("category id not found"));
     }
+
+    public Category delete(Long id) {
+        log.info("request delete category = {}", id);
+        return categoryRepository.findById(id)
+                .map(data -> {
+                    data.setDeleted(1);
+                    return save(data);
+                }).orElseThrow(() -> new MessageNotFoundException("failed delete because id not found"));
+    }
+
 }

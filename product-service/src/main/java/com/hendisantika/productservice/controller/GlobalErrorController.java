@@ -1,5 +1,6 @@
 package com.hendisantika.productservice.controller;
 
+import com.hendisantika.productservice.exception.ErrorFromClientException;
 import com.hendisantika.productservice.exception.MessageNotfoundException;
 import com.hendisantika.productservice.model.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -35,4 +36,13 @@ public class GlobalErrorController extends ResponseEntityExceptionHandler {
                         .build());
     }
 
+    @ExceptionHandler(ErrorFromClientException.class)
+    public ResponseEntity<ErrorResponse> handleErrorFromClient(ErrorFromClientException e) {
+        log.info("handleErrorFromClient.error = {} ", e.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(ErrorResponse.builder()
+                        .errorMessage(e.getMessage())
+                        .errorStatus(e.getErrorStatus())
+                        .build());
+    }
 }

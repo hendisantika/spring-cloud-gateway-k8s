@@ -3,6 +3,7 @@ package com.hendisantika.productservice.service;
 import com.alibaba.fastjson.JSON;
 import com.hendisantika.productservice.client.service.CategoryService;
 import com.hendisantika.productservice.entity.Products;
+import com.hendisantika.productservice.exception.MessageNotfoundException;
 import com.hendisantika.productservice.model.request.ProductRequest;
 import com.hendisantika.productservice.model.response.ProductResponse;
 import com.hendisantika.productservice.repository.ProductsRepository;
@@ -53,5 +54,12 @@ public class ProductsService {
                                 .format(DateTimeFormatter.ISO_LOCAL_DATE))
                         .price(data.getPrice())
                         .build());
+    }
+
+    public ProductResponse find(Long id) {
+        log.info("request product find = {} ", id);
+        return productsRepository.findById(id)
+                .map(data -> modelProduct(data))
+                .orElseThrow(() -> new MessageNotfoundException("product id not found"));
     }
 }

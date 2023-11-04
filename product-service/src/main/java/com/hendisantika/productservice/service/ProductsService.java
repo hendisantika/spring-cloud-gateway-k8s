@@ -8,7 +8,11 @@ import com.hendisantika.productservice.model.response.ProductResponse;
 import com.hendisantika.productservice.repository.ProductsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.time.format.DateTimeFormatter;
 
 /**
  * Created by IntelliJ IDEA.
@@ -34,5 +38,20 @@ public class ProductsService {
         categoryService.getCategory(request.getCategoryId());
         Products saveProduct = productsRepository.save(entityProduct(request));
         return modelProduct(saveProduct);
+    }
+
+    public Page<ProductResponse> list(Pageable pageable) {
+        log.info("request product = {} ", JSON.toJSON(pageable));
+        return productsRepository.findAll(pageable)
+                .map(data -> ProductResponse.builder()
+                        .id(data.getId())
+                        .name(data.getName())
+                        .category(this.categoryService.getCategory(data.getCategoryId()))
+                        .image(data.getImage())
+                        .qty(data.getQty())
+                        .createdAt(data.getCreatedAt()
+                                .format(DateTimeFormatter.ISO_LOCAL_DATE))
+                        .price(data.getPrice())
+                        .build());
     }
 }

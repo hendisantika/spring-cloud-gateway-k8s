@@ -1,9 +1,12 @@
 package com.hendisantika.categoryservice.service;
 
+import com.hendisantika.categoryservice.entity.Category;
 import com.hendisantika.categoryservice.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 
 /**
  * Created by IntelliJ IDEA.
@@ -21,4 +24,12 @@ import org.springframework.stereotype.Service;
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
+
+    public Category save(Category category) {
+        log.info("request category = {} ", category);
+        category.setDeleted(0);
+        category.setCreatedAt(LocalDateTime.now());
+        return categoryRepository.save(category);
+    }
+
 }

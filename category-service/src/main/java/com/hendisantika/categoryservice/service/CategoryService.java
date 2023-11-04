@@ -4,6 +4,8 @@ import com.hendisantika.categoryservice.entity.Category;
 import com.hendisantika.categoryservice.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -52,6 +54,19 @@ public class CategoryService {
                     data.setDeleted(1);
                     return save(data);
                 }).orElseThrow(() -> new MessageNotFoundException("failed delete because id not found"));
+    }
+
+    public Page<Category> list(Pageable pageable) {
+        log.info("request list category");
+        return categoryRepository.findAll(pageable)
+                .map(data -> Category
+                        .builder()
+                        .id(data.getId())
+                        .name(data.getName())
+                        .deleted(data.getDeleted())
+                        .createdAt(data.getCreatedAt())
+                        .updatedAt(data.getUpdatedAt())
+                        .build());
     }
 
 }

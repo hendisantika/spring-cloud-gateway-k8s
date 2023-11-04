@@ -1,6 +1,10 @@
 package com.hendisantika.productservice.service;
 
+import com.alibaba.fastjson.JSON;
 import com.hendisantika.productservice.client.service.CategoryService;
+import com.hendisantika.productservice.entity.Products;
+import com.hendisantika.productservice.model.request.ProductRequest;
+import com.hendisantika.productservice.model.response.ProductResponse;
 import com.hendisantika.productservice.repository.ProductsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,4 +28,11 @@ public class ProductsService {
     private final ProductsRepository productsRepository;
 
     private final CategoryService categoryService;
+
+    public ProductResponse create(ProductRequest request) {
+        log.info("request product = {} ", JSON.toJSON(request));
+        categoryService.getCategory(request.getCategoryId());
+        Products saveProduct = productsRepository.save(entityProduct(request));
+        return modelProduct(saveProduct);
+    }
 }

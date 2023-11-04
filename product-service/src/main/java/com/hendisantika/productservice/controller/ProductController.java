@@ -38,4 +38,10 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(productsService.list(pageable));
     }
+
+    @GetMapping(value = "${controller.api.get}")
+    public ResponseEntity<ProductResponse> find(@PathVariable("id") Long id) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(productsService.find(id));
+    }
 }

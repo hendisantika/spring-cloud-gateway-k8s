@@ -4,12 +4,11 @@ import com.hendisantika.productservice.model.request.ProductRequest;
 import com.hendisantika.productservice.model.response.ProductResponse;
 import com.hendisantika.productservice.service.ProductsService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -34,4 +33,9 @@ public class ProductController {
                 .body(productsService.create(request));
     }
 
+    @GetMapping(value = "${controller.api.list}")
+    public ResponseEntity<Page<ProductResponse>> findAll(Pageable pageable) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(productsService.list(pageable));
+    }
 }

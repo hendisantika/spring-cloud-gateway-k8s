@@ -5,10 +5,7 @@ import com.hendisantika.categoryservice.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -31,5 +28,11 @@ public class CategoryController {
     public ResponseEntity<Category> save(@RequestBody Category category) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(categoryService.save(category));
+    }
+
+    @PostMapping(value = "${controller.api.delete}/{id}")
+    public ResponseEntity<Category> delete(@PathVariable("id") Long id) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(categoryService.delete(id));
     }
 }

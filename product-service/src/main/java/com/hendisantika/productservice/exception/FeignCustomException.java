@@ -8,6 +8,9 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
+import static com.hendisantika.productservice.model.ConstantValue.INTERNAL_SERVER_ERROR_MESSAGE;
+import static com.hendisantika.productservice.model.ConstantValue.INTERNAL_SERVER_ERROR_STATUS;
+
 /**
  * Created by IntelliJ IDEA.
  * Project : spring-cloud-gateway-k8s

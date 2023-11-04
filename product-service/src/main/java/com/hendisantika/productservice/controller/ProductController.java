@@ -1,7 +1,13 @@
 package com.hendisantika.productservice.controller;
 
+import com.hendisantika.productservice.model.request.ProductRequest;
+import com.hendisantika.productservice.model.response.ProductResponse;
 import com.hendisantika.productservice.service.ProductsService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,5 +27,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
 
     private final ProductsService productsService;
+
+    @PostMapping(value = "${controller.api.create}")
+    public ResponseEntity<ProductResponse> create(@RequestBody ProductRequest request) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(productsService.create(request));
+    }
 
 }

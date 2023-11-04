@@ -1,6 +1,7 @@
 package com.hendisantika.categoryservice.service;
 
 import com.hendisantika.categoryservice.entity.Category;
+import com.hendisantika.categoryservice.exception.MessageNotFoundException;
 import com.hendisantika.categoryservice.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

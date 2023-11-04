@@ -3,6 +3,8 @@ package com.hendisantika.categoryservice.controller;
 import com.hendisantika.categoryservice.entity.Category;
 import com.hendisantika.categoryservice.service.CategoryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,5 +36,11 @@ public class CategoryController {
     public ResponseEntity<Category> delete(@PathVariable("id") Long id) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(categoryService.delete(id));
+    }
+
+    @GetMapping(value = "${controller.api.list}")
+    public ResponseEntity<Page<Category>> list(Pageable pageable) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(categoryService.list(pageable));
     }
 }

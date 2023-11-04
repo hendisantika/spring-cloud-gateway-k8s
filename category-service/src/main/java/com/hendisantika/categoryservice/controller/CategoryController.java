@@ -43,4 +43,10 @@ public class CategoryController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(categoryService.list(pageable));
     }
+
+    @GetMapping(value = "${controller.api.get}")
+    public ResponseEntity<Category> find(@PathVariable("id") Long id) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(categoryService.get(id));
+    }
 }

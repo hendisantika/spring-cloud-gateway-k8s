@@ -32,4 +32,16 @@ public class CategoryService {
         return categoryRepository.save(category);
     }
 
+    public Category get(Long id) {
+        log.info("request get category by id = {}", id);
+        return categoryRepository.findById(id)
+                .map(data -> Category.builder()
+                        .id(data.getId())
+                        .name(data.getName())
+                        .createdAt(data.getCreatedAt())
+                        .updatedAt(data.getUpdatedAt())
+                        .deleted(data.getDeleted())
+                        .build())
+                .orElseThrow(() -> new MessageNotFoundException("category id not found"));
+    }
 }

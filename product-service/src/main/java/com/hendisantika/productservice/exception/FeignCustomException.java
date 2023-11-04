@@ -1,10 +1,10 @@
 package com.hendisantika.productservice.exception;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hendisantika.productservice.model.response.ErrorResponse;
 import feign.Response;
 import feign.codec.ErrorDecoder;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.ErrorResponse;
 
 import java.io.IOException;
 

@@ -1,4 +1,4 @@
-FROM openjdk:21-slim
+FROM bellsoft/liberica-openjdk-debian:21
 ENV APP_FILE category-service-1.0.jar
 ENV APP_HOME /usr/apps
 EXPOSE 80

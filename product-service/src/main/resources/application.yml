@@ -43,3 +43,5 @@ controller:
     list: /api/v1/list
     get: /api/v1/get/{id}
 
+server:
+  port: 8081

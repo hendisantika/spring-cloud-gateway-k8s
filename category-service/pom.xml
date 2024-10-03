@@ -15,7 +15,7 @@
 	<description>category-service</description>
 	<properties>
 		<java.version>21</java.version>
-		<feign-http.version>11.0</feign-http.version>
+		<feign-http.version>13.4</feign-http.version>
 	</properties>
 	<dependencies>
 		<dependency>

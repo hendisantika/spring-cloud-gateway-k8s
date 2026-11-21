@@ -1,10 +1,12 @@
 package com.hendisantika.productservice.exception;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hendisantika.productservice.model.response.ErrorResponse;
 import feign.Response;
 import feign.codec.ErrorDecoder;
 import lombok.extern.slf4j.Slf4j;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.io.IOException;
 
@@ -29,11 +31,11 @@ public class FeignCustomException implements ErrorDecoder {
         log.info("request url = {} ", response.request().url());
         log.info("request header = {} ", response.request().headers());
         try {
-            ObjectMapper mapper = new ObjectMapper();
+            ObjectMapper mapper = JsonMapper.builder().build();
             ErrorResponse errorResponse = mapper.readValue(response.body().asInputStream(), ErrorResponse.class);
             log.info("error response = {} and status = {} ", errorResponse.getErrorMessage(), errorResponse.getErrorStatus());
             return new ErrorFromClientException(errorResponse.getErrorMessage(), errorResponse.getErrorStatus());
-        } catch (IOException e) {
+        } catch (IOException | JacksonException e) {
             log.error("error IOException feign decode = {} ", e.getMessage());
             throw new ErrorFromClientException(INTERNAL_SERVER_ERROR_MESSAGE, INTERNAL_SERVER_ERROR_STATUS);
         }

@@ -1,6 +1,12 @@
+server:
+  port: 80
+  error:
+    include-message: always
 spring:
   application:
     name: category-service
+  config:
+    import: "optional:kubernetes:"
   profiles:
     active: dev
   datasource:

@@ -1,6 +1,8 @@
 spring:
   application:
     name: product-service
+  config:
+    import: "optional:kubernetes:"
   datasource:
     name: datasource
     url: jdbc:postgresql://localhost:5432/product
@@ -45,3 +47,5 @@ controller:
 
 server:
   port: 8081
+  error:
+    include-message: always

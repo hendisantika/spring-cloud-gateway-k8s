@@ -5,20 +5,22 @@ spring:
     name: gateway-service
   cloud:
     gateway:
-      discovery:
-        locator:
-          enabled: true
-          url-expression: "'http://'+serviceId+':'+getPort()"
-          lower-case-service-id: true
-      routes:
-        - id: category-service
-          uri: lb://category-service
-          predicates:
-            - Path=/category-service/**
-        - id: product-service
-          uri: lb://product-service
-          predicates:
-            - Path=/product-service/**
+      server:
+        webflux:
+          discovery:
+            locator:
+              enabled: true
+              url-expression: "'http://'+serviceId+':'+getPort()"
+              lower-case-service-id: true
+          routes:
+            - id: category-service
+              uri: lb://category-service
+              predicates:
+                - Path=/category-service/**
+            - id: product-service
+              uri: lb://product-service
+              predicates:
+                - Path=/product-service/**
 logging:
   level:
     org.springframework.web.HttpLogging: TRACE

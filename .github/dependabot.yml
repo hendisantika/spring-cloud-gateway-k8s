@@ -1,30 +1,110 @@
 version: 2
+
 updates:
+  # ---------------------------------------------------------------------------
+  # Maven dependencies for every microservice
+  # ---------------------------------------------------------------------------
   - package-ecosystem: maven
-    directory: "/product-service"
+    directories:
+      - "/product-service"
+      - "/category-service"
+      - "/gateway-service"
     schedule:
-      interval: daily
-      time: '05:00'
+      interval: weekly
+      day: monday
+      time: "05:00"
       timezone: Asia/Jakarta
     open-pull-requests-limit: 10
+    assignees:
+      - hendisantika
+    labels:
+      - dependencies
+      - java
+    commit-message:
+      prefix: "build(deps)"
+      prefix-development: "build(deps-dev)"
+      include: scope
+    groups:
+      spring-boot:
+        patterns:
+          - "org.springframework.boot*"
+      spring-cloud:
+        patterns:
+          - "org.springframework.cloud*"
+      openfeign:
+        patterns:
+          - "io.github.openfeign*"
+      test:
+        dependency-type: development
+        patterns:
+          - "org.junit*"
+          - "org.mockito*"
+          - "org.assertj*"
+          - "io.projectreactor:reactor-test"
+          - "com.h2database:h2"
+      minor-and-patch:
+        update-types:
+          - minor
+          - patch
+        exclude-patterns:
+          - "org.springframework.boot*"
+          - "org.springframework.cloud*"
+    ignore:
+      # Major framework upgrades need a manual migration
+      - dependency-name: "org.springframework.boot:spring-boot-starter-parent"
+        update-types: [ "version-update:semver-major" ]
+      - dependency-name: "org.springframework.cloud:spring-cloud-dependencies"
+        update-types: [ "version-update:semver-major" ]
 
-  - package-ecosystem: maven
-    directory: "/category-service"
+  # ---------------------------------------------------------------------------
+  # Docker base images
+  # ---------------------------------------------------------------------------
+  - package-ecosystem: docker
+    directories:
+      - "/product-service"
+      - "/category-service"
+      - "/gateway-service"
     schedule:
-      interval: daily
-      time: '05:00'
+      interval: weekly
+      day: monday
+      time: "05:00"
       timezone: Asia/Jakarta
-    open-pull-requests-limit: 10
+    open-pull-requests-limit: 5
+    assignees:
+      - hendisantika
+    labels:
+      - dependencies
+      - docker
+    commit-message:
+      prefix: "build(docker)"
+    groups:
+      base-images:
+        patterns:
+          - "*"
+    ignore:
+      # Stay on the JDK 25 LTS line; jump to the next LTS manually
+      - dependency-name: "bellsoft/liberica-openjdk-debian"
+        update-types: [ "version-update:semver-major" ]
 
-  - package-ecosystem: maven
-    directory: "/gateway-service"
-    schedule:
-      interval: daily
-      time: '05:00'
-      timezone: Asia/Jakarta
-    open-pull-requests-limit: 10
-    
-  - package-ecosystem: "github-actions"
+  # ---------------------------------------------------------------------------
+  # GitHub Actions used in workflows
+  # ---------------------------------------------------------------------------
+  - package-ecosystem: github-actions
     directory: "/"
     schedule:
-      interval: "daily"
+      interval: weekly
+      day: monday
+      time: "05:00"
+      timezone: Asia/Jakarta
+    open-pull-requests-limit: 5
+    assignees:
+      - hendisantika
+    labels:
+      - dependencies
+      - github-actions
+    commit-message:
+      prefix: "ci(deps)"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
